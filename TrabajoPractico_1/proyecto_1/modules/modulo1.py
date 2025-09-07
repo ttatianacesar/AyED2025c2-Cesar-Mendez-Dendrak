@@ -96,42 +96,42 @@ class ListaDobleEnlazada:
             nodo_actual.siguiente.anterior = nodo_actual.anterior
             self.tamanio -= 1
             return dato
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        
+    def copiar(self):
+        copia_lista= ListaDobleEnlazada()
+        for dato in self:
+            copia_lista.agregar_al_final(dato)
+        return copia_lista
+    
+    def invertir(self):
+        lista_invertida= ListaDobleEnlazada()
+        for dato in self:
+            lista_invertida.agregar_al_inicio(dato)
+        return lista_invertida
+    
+    def concatenar(self, nueva_lista):
+        otra_lista= nueva_lista.copia()
+        for dato in nueva_lista:
+            otra_lista.agregar_al_final(dato)
+        return otra_lista
+    
     def len(self):
         return self.tamanio
+    
+    def __add__(self, otra_lista):
+        nueva_lista= self.copiar()
+        for dato in otra_lista:
+            nueva_lista.agregar_al_final(dato)
+        return nueva_lista
+    
+    def __iter__(self):
+        nodo_actual = self.cabeza
+        while nodo_actual:
+            yield nodo_actual.dato
+            nodo_actual = nodo_actual.siguiente
+
+        
+
 
 
 
