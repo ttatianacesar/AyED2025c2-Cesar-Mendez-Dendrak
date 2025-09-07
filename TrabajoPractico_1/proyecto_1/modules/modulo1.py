@@ -67,19 +67,36 @@ class ListaDobleEnlazada:
         if self.esta_vacia():
             raise IndexError("La lista esta vacia, no se puede extraer")
         
-        if posicion is None or posicion == self.tamanio -1:
+        if posicion is None or posicion == self.tamanio -1:  #eliminar el ultimo nodo
             dato = self.cola.dato 
-            if self.tamanio == 1:
+            if self.tamanio == 1:       #si solo tiene un nodo
                 self.cabeza = self.cola = None
-            else:
-                self.cola = self.cola.anterior
+            else:                        #si tiene mas de un nodo
+                self.cola = self.cola.anterior 
                 self.cola.siguiente = None
             self.tamanio -= 1
             return dato
         
-        elif posicion == 0:
+        elif posicion == 0:     #caso eliminar el primer nodo 
             dato = self.cabeza.dato
+            self.cabeza = self.cabeza.siguiente
+            if self.cabeza:
+                self.cabeza.anterior = None
+            else:
+                self.cola = None
+            self.tamanio -= 1
+            return dato
         
+        elif 0 < posicion < self.tamanio -1:   #caso eliminar nodo en posicion intermedia
+            nodo_actual = self.cabeza
+            for _ in range(posicion):
+                nodo_actual = nodo_actual.siguiente
+            dato = nodo_actual.dato
+            nodo_actual.anterior.siguiente = nodo_actual.siguiente
+            nodo_actual.siguiente.anterior = nodo_actual.anterior
+            self.tamanio -= 1
+            return dato
+
 
 
 
