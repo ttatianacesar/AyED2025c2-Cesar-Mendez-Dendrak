@@ -1,0 +1,35 @@
+import time 
+import matplotlib.pyplot as plt
+from ListaDobleEnlazada import ListaDobleEnlazada
+
+def medir_tiempo(funcion_medible):
+    inicio = time.time()
+    funcion_medible()
+    fin = time.time()
+    return fin - inicio
+
+
+tamanios= [100, 500, 1000, 5000, 10000]
+tiempos_len= []
+tiempos_copiar= []
+tiempos_invertir= []
+
+for N in tamanios:
+    lista = ListaDobleEnlazada()
+    for i in range(N):
+        lista.agregar_al_final(i)
+
+    
+    tiempos_len.append(medir_tiempo(lambda: lista.len()))
+    tiempos_copiar.append(medir_tiempo(lambda: lista.copiar()))
+    tiempos_invertir.append(medir_tiempo(lambda: lista.invertir()))
+
+
+plt.plot(tamanios, tiempos_len, label='len')
+plt.plot(tamanios, tiempos_copiar, label='copiar')
+plt.plot(tamanios, tiempos_invertir, label='invertir')
+plt.xlabel('N (cantidad de elementos)')
+plt.ylabel('Tiempo de ejecución (segundos)')
+plt.title('Tiempo de ejecución de métodos de ListaDobleEnlazada')
+plt.legend()
+plt.show()

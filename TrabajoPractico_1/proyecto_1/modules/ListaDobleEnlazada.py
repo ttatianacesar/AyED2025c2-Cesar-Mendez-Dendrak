@@ -32,7 +32,7 @@ class ListaDobleEnlazada:
     def agregar_al_final(self, dato):
         nuevo_nodo= Nodo(dato)
         if self.esta_vacia():
-            nuevo_nodo = Nodo(dato)
+            self.cabeza = self.cola = nuevo_nodo
         else:
             nuevo_nodo.anterior = self.cola
             self.cola.siguiente = nuevo_nodo
@@ -129,6 +129,7 @@ class ListaDobleEnlazada:
         while nodo_actual:
             yield nodo_actual.dato
             nodo_actual = nodo_actual.siguiente
+
 
         
 
