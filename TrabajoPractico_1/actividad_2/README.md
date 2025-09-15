@@ -1,44 +1,24 @@
-# 🐍Nombre del proyecto (darle un nombre significativo) 
+# "La guerra"
+Objetivo
+ Implementar el juego de cartas 'Guerra', reutilizando el TAD ListaDobleEnlazada desarrollado en el Problema 1 para construir la estructura de datos Mazo, que será la base del funcionamiento del juego. 
 
-Breve descripción del proyecto:
+Reutilización del Problema 1
+ Del ejercicio anterior se extrajo la implementación de ListaDobleEnlazada. Esta estructura fue elegida porque permite inserciones y extracciones eficientes tanto al inicio como al final (O(1)), algo indispensable para modelar un mazo de cartas. Además, posibilita recorrer la lista y copiarla sin recurrir a estructuras nativas de Python, cumpliendo con las restricciones del enunciado.
 
-Ejemplo: “Este es un script en el que se comparan algoritmos de ordenamiento. Permite [describir funcionalidades principales].
+Modelado de la carta 
+La clase Carta representa cada carta del mazo con sus atributos principales: valor, palo y visible. Incluye un método privado para obtener el valor numérico, lo que permite comparaciones directas, y sobrecarga de operadores para que las comparaciones sean simples. También define métodos para su representación en pantalla. 
 
----
-## 🏗Arquitectura General
+Finalmente, para comprobar que la implementación es correcta, se llevaron a cabo los tests proporcionados:
 
-Explica brevemente cómo está organizado el código (funciones y/o clases)
+Test de la clase Mazo: todos los casos se ejecutaron con éxito, lo que confirma que las operaciones sobre el mazo se comportan según lo esperado.
 
-Las gráficas de los resultados están disponible en la carpeta [data](./data) del proyecto.
+Test del juego Guerra: todos los casos se completaron satisfactoriamente, demostrando que la lógica del juego, utilizando nuestra implementación del mazo, es sólida y cumple con los requisitos establecidos.
 
-El informe completo está disponible en la carpeta [docs](./docs) del proyecto.
+Se concluye que, el Problema 2 muestra cómo un TAD genérico puede reutilizarse como pieza fundamental para resolver un problema más complejo. La modularidad del código permite separar responsabilidades: Carta modela un objeto individual, Mazo gestiona la colección de cartas y JuegoGuerra orquesta las reglas. De esta forma, se respeta el paradigma de abstracción de datos y se obtiene un programa robusto, reutilizable y fácil de mantener.
 
----
-## 📑Dependencias
 
-1. **Python 3.x**
-2. **matplotlib** (`pip install matplotlib`)
-3. listar dependencias principales
-4. Dependencias listadas en requierements.txt
 
----
-## 🚀Cómo Ejecutar el Proyecto
-1. **Clonar o descargar** el repositorio.
 
-2. **Crear y activar** un entorno virtual.
 
-3. **Instalar las dependencias**:
-   ```bash
-   pip install -r requirements.txt
-   ```
-   El archivo `requirements.txt` se encuentran en la carpeta [deps](./deps) del proyecto.
-
----
-## 🙎‍♀️🙎‍♂️Autores
-
-- Apellido y Nombre del primer integrante
-- Apellido y Nombre del primer integrante
-
----
 
 > **Consejo**: Mantén el README **actualizado** conforme evoluciona el proyecto, y elimina (o añade) secciones según necesites. Esta plantilla es sólo un punto de partida general.
