@@ -1,4 +1,5 @@
 Actividad 1: creación de ListaDobleEnlazada
+
 Con este codigo se implementó una estructura de datos Lista Doblemente Enlazada lo que permite almacenar elementos en nodos conectados por referencias hacia adelante y hacia atras.
 
 Cada nodo cuenta con su datos y las dos referencias "siguiente" y "anterior", y la lista mantiene los punteros en la cabeza y cola que permite insertar y extraer de los extremos.
