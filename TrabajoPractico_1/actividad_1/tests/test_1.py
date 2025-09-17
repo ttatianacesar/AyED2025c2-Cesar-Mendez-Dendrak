@@ -4,6 +4,9 @@
 Created on Thu Sep  1 14:00:21 2022
 @author: Catedra de Algoritmos y Estructura de Datos
 """
+import sys, os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+"las lineas anteriores permiten importar desde el directorio principal porque de otra forma no nos funcionó "
 
 from modules.ListaDobleEnlazada import ListaDobleEnlazada
 
@@ -64,9 +67,8 @@ class Test_LDE(unittest.TestCase):
 
         while nodo is not None:
             counter -= 1
-            self.assertEqual(elementos[counter], nodo.dato,
-                             "Los elementos en la lista recorrida de atras para adelante son diferentes "
-                             "a que si la recorremos de adelante para atrás.")
+            self.assertEqual(elementos[counter], nodo.dato,)
+                            
             nodo = nodo.anterior
         
 # ----------------------------------------------------------------------------------------------------------------------------------

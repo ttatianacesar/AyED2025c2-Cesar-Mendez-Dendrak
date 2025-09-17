@@ -1,5 +1,4 @@
-from modules.ListaDobleEnlazada import ListaDobleEnlazada  # usa tu implementación anterior
-
+from modules.ListaDobleEnlazada import ListaDobleEnlazada  
 
 class DequeEmptyError(Exception):
     """Error lanzado al intentar sacar una carta de un mazo vacío."""
