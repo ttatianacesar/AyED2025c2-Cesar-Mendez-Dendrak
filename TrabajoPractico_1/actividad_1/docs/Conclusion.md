@@ -17,6 +17,7 @@ __len__ y __iter__ (compatibilidad con funciones de Python).
 Esta estructura esta diseñada para ser eficiente, modular y extensible, pero a su vez que sea simple y funcional. 
 
 Análisis de los métodos len, copiar, invertir:
+
 len():  lo que se esperaba de este método era una eficiencia de O(1) (tiempo constante) y el comportamiento observado fueron
 tiempos de ejecución extremadamente bajos y constantes, independientemente del tamaño de la lista, por lo que se concluye que es altamente eficiente. 
 
