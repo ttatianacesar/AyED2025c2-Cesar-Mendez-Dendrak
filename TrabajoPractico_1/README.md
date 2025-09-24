@@ -8,7 +8,7 @@ Este trabajo práctico consta de los siguientes 3 proyectos:
   - actividad_2: contiene la implementación del juego “Guerra” basado en una clase Mazo, que utiliza la ListaDobleEnlazada de la actividad_1. Incluye las pruebas unitarias necesarias.
   - actividad_3:  contiene implementaciones de los algoritmos de ordenamiento, medición de tiempos y generación de gráficas.
 
-La gráficas estás disponibles en la carpeta data correspodiente a cada actividad.
+Todas las gráficas estás disponibles en la carpeta data/ correspondiente a cada actividad.
 
 
 ---
@@ -35,8 +35,9 @@ La gráficas estás disponibles en la carpeta data correspodiente a cada activid
 ---
 ## 🙎‍♀️🙎‍♂️Autores
 
-- Apellido y Nombre del primer integrante
-- Apellido y Nombre del primer integrante
+- Dendrak Jacqueline
+- César Tatiana
+- Laferrara Méndez Sofía
 
 ---
 
