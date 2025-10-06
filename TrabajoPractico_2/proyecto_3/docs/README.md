@@ -1,5 +1,5 @@
-*Mostrar la lista de aldeas en orden alfabético.*
-*Para cada aldea, mostrar de qué vecina debería recibir la noticia.*
+*Mostrar la lista de aldeas en orden alfabético.
+*Para cada aldea, mostrar de qué vecina debería recibir la noticia.
 *Para el envío de una noticia, mostrar la suma de todas las distancias recorridas por
 todas las palomas enviadas desde cada palomar.
 
@@ -165,3 +165,4 @@ Aldea: Villaviciosa
 
 Suma total de distancias (verificación): 94
 Nota: debe coincidir con peso total del MST.
+
