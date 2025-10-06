@@ -46,7 +46,8 @@ class Temperaturas_DB: #tiene toda la logica AVL
 
     # ---------- Insertar / actualizar ----------
     def guardar_temperatura(self, temperatura: float, fecha_str: str): #recibe T y fecha como str dd/mm/aaaa
-        fecha = datetime.strptime(fecha_str, "%d/%m/%Y").date() #convierte la cadena a datetime
+        fecha = datetime.strptime(fecha_str, "%d-%m-%Y").date()
+    #convierte la cadena a datetime
         self.raiz, inserted = self._insertar(self.raiz, fecha, float(temperatura)) #mete la info
         if inserted:
             self._cantidad += 1 #si es q se metio algo, modifica el contador
@@ -83,7 +84,7 @@ class Temperaturas_DB: #tiene toda la logica AVL
 
     # Buscar temperatura exacta
     def devolver_temperatura(self, fecha_str: str) -> Optional[float]:
-        fecha = datetime.strptime(fecha_str, "%d/%m/%Y").date()
+        fecha = datetime.strptime(fecha_str, "%d-%m-%Y").date()
         nodo = self._buscar(self.raiz, fecha) #llama a buscar
         return nodo.temperatura if nodo else None #si encontro devuelve lo q buscas
 
@@ -232,18 +233,18 @@ class Temperaturas_DB: #tiene toda la logica AVL
         """
         Lee líneas del archivo y guarda las temperaturas.
         Admite líneas:
-            dd/mm/yyyy,temperatura
-            dd/mm/yyyy,HH:MM,temperatura
+            dd/mm/yyyy;temperatura
+            dd/mm/yyyy;HH:MM;temperatura
         Si hay encabezado (cabeceras), pasar saltar_encabezado=True para intentar ignorarla.
         """
-        with open(ruta_archivo, "r", encoding="utf-8") as f:
+        with open(ruta_archivo, "r", encoding="utf-8-sig") as f:
             lineas = f.readlines()
 
         for i, linea in enumerate(lineas):
             linea = linea.strip()
             if not linea:
                 continue
-            partes = [p.strip() for p in linea.split(",") if p.strip() != ""]
+            partes = [p.strip() for p in linea.split(";") if p.strip() != ""]
             # intentar detectar y saltar encabezado simple
             if saltar_encabezado and i == 0:
                 # si la primera parte no es parseable como fecha, saltar
@@ -266,27 +267,9 @@ class Temperaturas_DB: #tiene toda la logica AVL
             except Exception:
                 # línea malformada -> ignorar
                 continue
-#para que lea muestras.txt:
-    def cargar_desde_archivo(self, ruta_archivo):
-        """
-        Lee un archivo CSV o TXT con formato:
-        fecha, temperatura
-        y carga los datos en la base de datos.
-        Ejemplo:
-        01/01/2024, 24.5
-        02/01/2024, 25.1
-        """
-        with open(ruta_archivo, 'r', encoding='utf-8') as archivo:
-            lector = csv.reader(archivo)
-            next(lector)  # salta encabezado si lo tiene
-            for fila in lector:
-                if len(fila) < 2:
-                    continue  # evita líneas vacías o mal formadas
-                fecha_str = fila[0].strip()
-                temperatura = float(fila[1].strip())
-                # Convertir la fecha a datetime
-                fecha_dt = datetime.strptime(fecha_str, "%d/%m/%Y")
-                self.guardar_temperatura(temperatura, fecha_dt)
+
+
+
 
 
 
