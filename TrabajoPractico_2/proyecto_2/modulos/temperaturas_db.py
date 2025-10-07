@@ -46,7 +46,7 @@ class Temperaturas_DB: #tiene toda la logica AVL
 
     # ---------- Insertar / actualizar ----------
     def guardar_temperatura(self, temperatura: float, fecha_str: str): #recibe T y fecha como str dd/mm/aaaa
-        fecha = datetime.strptime(fecha_str, "%d-%m-%Y").date()
+        fecha = datetime.strptime(fecha_str, "%Y-%m-%d").date()
     #convierte la cadena a datetime
         self.raiz, inserted = self._insertar(self.raiz, fecha, float(temperatura)) #mete la info
         if inserted:
@@ -84,7 +84,7 @@ class Temperaturas_DB: #tiene toda la logica AVL
 
     # Buscar temperatura exacta
     def devolver_temperatura(self, fecha_str: str) -> Optional[float]:
-        fecha = datetime.strptime(fecha_str, "%d-%m-%Y").date()
+        fecha = datetime.strptime(fecha_str, "%Y-%m-%d").date()
         nodo = self._buscar(self.raiz, fecha) #llama a buscar
         return nodo.temperatura if nodo else None #si encontro devuelve lo q buscas
 
@@ -99,7 +99,7 @@ class Temperaturas_DB: #tiene toda la logica AVL
 
     # ---------- Borrar ----------
     def borrar_temperatura(self, fecha_str: str) -> bool:
-        fecha = datetime.strptime(fecha_str, "%d/%m/%Y").date()
+        fecha = datetime.strptime(fecha_str, "%Y-%m-%d").date()
         deleted, self.raiz = self._borrar(self.raiz, fecha)
         if deleted:
             self._cantidad -= 1
@@ -169,17 +169,17 @@ class Temperaturas_DB: #tiene toda la logica AVL
             self._rango(nodo.der, f1, f2, salida)
 
     def devolver_temperaturas(self, fecha1: str, fecha2: str) -> List[str]:
-        f1 = datetime.strptime(fecha1, "%d/%m/%Y").date()
-        f2 = datetime.strptime(fecha2, "%d/%m/%Y").date()
+        f1 = datetime.strptime(fecha1, "%Y-%m-%d").date()
+        f2 = datetime.strptime(fecha2, "%Y-%m-%d").date()
         if f1 > f2:
             raise ValueError("fecha1 debe ser <= fecha2")
         tuplas: List[Tuple[date, float]] = []
         self._rango(self.raiz, f1, f2, tuplas)   # ya salen ordenadas
-        return [f"{f.strftime('%d/%m/%Y')}: {t} ºC" for f, t in tuplas]
+        return [f"{f.strftime("%Y-%m-%d")}: {t} ºC" for f, t in tuplas]
 
     def max_temp_rango(self, fecha1: str, fecha2: str) -> Optional[float]:
-        f1 = datetime.strptime(fecha1, "%d/%m/%Y").date()
-        f2 = datetime.strptime(fecha2, "%d/%m/%Y").date()
+        f1 = datetime.strptime(fecha1, "%Y-%m-%d").date()
+        f2 = datetime.strptime(fecha2, "%Y-%m-%d").date()
         if f1 > f2:
             raise ValueError("fecha1 debe ser <= fecha2")
         tuplas: List[Tuple[date, float]] = []
@@ -193,8 +193,8 @@ class Temperaturas_DB: #tiene toda la logica AVL
         return maxv
 
     def min_temp_rango(self, fecha1: str, fecha2: str) -> Optional[float]:
-        f1 = datetime.strptime(fecha1, "%d/%m/%Y").date()
-        f2 = datetime.strptime(fecha2, "%d/%m/%Y").date()
+        f1 = datetime.strptime(fecha1, "%Y-%m-%d").date()
+        f2 = datetime.strptime(fecha2, "%Y-%m-%d").date()
         if f1 > f2:
             raise ValueError("fecha1 debe ser <= fecha2")
         tuplas: List[Tuple[date, float]] = []
@@ -209,8 +209,8 @@ class Temperaturas_DB: #tiene toda la logica AVL
 
     def temp_extremos_rango(self, fecha1: str, fecha2: str) -> Tuple[Optional[float], Optional[float]]:
         # calculamos min y max en una sola pasada (más eficiente que llamar a min y max por separado)
-        f1 = datetime.strptime(fecha1, "%d/%m/%Y").date()
-        f2 = datetime.strptime(fecha2, "%d/%m/%Y").date()
+        f1 = datetime.strptime(fecha1, "%Y-%m-%d").date()
+        f2 = datetime.strptime(fecha2, "%Y-%m-%d").date()
         if f1 > f2:
             raise ValueError("fecha1 debe ser <= fecha2")
         tuplas: List[Tuple[date, float]] = []
@@ -237,7 +237,8 @@ class Temperaturas_DB: #tiene toda la logica AVL
             dd/mm/yyyy;HH:MM;temperatura
         Si hay encabezado (cabeceras), pasar saltar_encabezado=True para intentar ignorarla.
         """
-        with open(ruta_archivo, "r", encoding="utf-8-sig") as f:
+        with open("data/muestras.txt", "r", encoding="utf-8") as f:
+
             lineas = f.readlines()
 
         for i, linea in enumerate(lineas):
@@ -249,7 +250,7 @@ class Temperaturas_DB: #tiene toda la logica AVL
             if saltar_encabezado and i == 0:
                 # si la primera parte no es parseable como fecha, saltar
                 try:
-                    datetime.strptime(partes[0], "%d/%m/%Y")
+                    datetime.strptime(partes[0], "%Y-%m-%d")
                 except Exception:
                     continue
             try:
@@ -262,7 +263,7 @@ class Temperaturas_DB: #tiene toda la logica AVL
                     continue
                 temp = float(temp_txt)
                 # validar fecha formateada
-                datetime.strptime(fecha_txt, "%d/%m/%Y")
+                datetime.strptime(fecha_txt, "%Y-%m-%d")
                 self.guardar_temperatura(temp, fecha_txt)
             except Exception:
                 # línea malformada -> ignorar
