@@ -1,56 +1,42 @@
+
 from modulos.temperaturas_db import Temperaturas_DB
-import os
-
-
-def ruta_muestras():
-    base = os.path.dirname(os.path.dirname(__file__))
-    return os.path.join(base, "data", "muestras.txt")
-
-
-def main():
-    db = Temperaturas_DB()
-
-
-    ruta = ruta_muestras()
-    if os.path.exists(ruta):
-        print(f"\n Cargando muestras desde: {ruta}")
-        db.cargar_desde_archivo(ruta)
-    else:
-        print(" No se encontró el archivo de muestras, cargando ejemplos manuales...")
-        db.guardar_temperatura(20.5, "2025-01-01")
-        db.guardar_temperatura(21.0, "2025-01-02")
-        db.guardar_temperatura(19.8, "2025-01-03")
-
-
-    print("\n Muestras cargadas correctamente.")
-    print("Cantidad total de muestras:", db.cantidad_muestras())
-
-
-    print("\nTemperaturas del 2025-01-01 al 2025-01-05:")
-    lista = db.devolver_temperaturas("2025-01-01", "2025-01-05")
-    for item in lista:
-        print(item)
-
-
-    print("\nTemperatura mínima:", db.min_temp_rango("2025-01-01", "2025-01-05"))
-    print("Temperatura máxima:", db.max_temp_rango("2025-01-01", "2025-01-05"))
-    print("Extremos (mín, máx):", db.temp_extremos_rango("2025-01-01", "2025-01-05"))
-
-
-    print("\nTemperatura del 2025-01-10:", db.devolver_temperatura("2025-01-10"))
-
-
-    print("\nEliminando temperatura del 2025-01-10...")
-    borrado = db.borrar_temperatura("2025-01-10")
-    print("Resultado:", "Eliminado" if borrado else "No se encontró la fecha")
-    print("Cantidad tras borrar:", db.cantidad_muestras())
-
 
 if __name__ == "__main__":
-    main()
+    bd = Temperaturas_DB()
 
+    # Cargar algunos datos de prueba
+    bd.guardar_temperatura(20.5, "01/01/2025")
+    bd.guardar_temperatura(21.0, "02/01/2025")
+    bd.guardar_temperatura(19.3, "03/01/2025")
+    bd.guardar_temperatura(22.7, "04/01/2025")
 
-import os
+    print("Cantidad de muestras:", bd.cantidad_muestras())
+    print("Temperatura el 02/01:", bd.devolver_temperatura("02/01/2025"))
 
-print("Directorio actual:", os.getcwd())
-print("Existe archivo muestras.txt?:", os.path.exists("data/muestras.txt"))
+    print("\nTemperaturas del 01/01 al 03/01:")
+    for linea in bd.devolver_temperaturas("01/01/2025", "03/01/2025"):
+        print(linea)
+
+    print("\nMáxima en el rango:", bd.max_temp_rango("01/01/2025", "04/01/2025"))
+    print("Mínima en el rango:", bd.min_temp_rango("01/01/2025", "04/01/2025"))
+    print("Extremos:", bd.temp_extremos_rango("01/01/2025", "04/01/2025"))
+
+#para probar archivo: 
+from modulos.temperaturas_db import Temperaturas_DB
+
+if __name__ == "__main__":
+    bd = Temperaturas_DB()
+
+    # Intentar cargar desde archivo
+    ruta = "data/muestras.txt"  # ajustá según tu carpeta
+    bd.cargar_desde_archivo(ruta)
+
+    print("\nCantidad total de muestras:", bd.cantidad_muestras())
+
+    print("\nTemperaturas del 2025-01-10 al 2025-01-15:")
+    lista = bd.devolver_temperaturas("10/01/2025", "15/01/2025")
+    for linea in lista:
+        print(linea)
+
+    print("\nMáxima en el rango:", bd.max_temp_rango("09/01/2025", "29/01/2025"))
+    print("Mínima en el rango:", bd.min_temp_rango("09/01/2025", "29/01/2025"))
