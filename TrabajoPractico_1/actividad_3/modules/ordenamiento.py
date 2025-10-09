@@ -1,8 +1,8 @@
 # Algoritmos de ordenamiento
 # -------------------------
-import random
-import time
-import matplotlib.pyplot as plt
+#import random
+#import time
+#import matplotlib.pyplot as plt
 def bubble_sort(arr):
     n = len(arr)
     for i in range(n):
@@ -50,59 +50,4 @@ def radix_sort(arr):
         exp *= 10
     return arr
 
-# -------------------------
-# Generar lista aleatoria
-# -------------------------
-def generar_lista(n):
-    return [random.randint(10000, 99999) for _ in range(n)]
 
-# -------------------------
-# Medir tiempos
-# -------------------------
-def medir_tiempo(algoritmo, lista):
-    start = time.time()
-    algoritmo(lista.copy())
-    end = time.time()
-    return end - start
-
-# -------------------------
-# Ejecutar pruebas
-# -------------------------
-tamaños = list(range(1, 1001))
-tiempos_burbuja = []
-tiempos_quick = []
-tiempos_radix = []
-tiempos_sorted = []
-
-print("Midiendo tiempos, esto puede tardar un poco...")
-
-for n in tamaños:
-    lst = generar_lista(n)
-    tiempos_burbuja.append(medir_tiempo(bubble_sort, lst))
-    tiempos_quick.append(medir_tiempo(quicksort, lst))
-    tiempos_radix.append(medir_tiempo(radix_sort, lst))
-    tiempos_sorted.append(medir_tiempo(sorted, lst))
-
-# -------------------------
-# Graficar resultados
-# -------------------------
-plt.figure(figsize=(12,6))
-plt.plot(tamaños, tiempos_burbuja, label='Bubble Sort')
-plt.plot(tamaños, tiempos_quick, label='QuickSort')
-plt.plot(tamaños, tiempos_radix, label='Radix Sort')
-plt.plot(tamaños, tiempos_sorted, label='Python sorted')
-plt.xlabel("Tamaño de la lista")
-plt.ylabel("Tiempo (s)")
-plt.title("Comparación de algoritmos de ordenamiento")
-plt.legend()
-plt.grid(True)
-plt.show()
-
-# -------------------------
-# Complejidad a priori
-# -------------------------
-print("\nComplejidades teóricas:")
-print("Bubble Sort: O(n^2)")
-print("QuickSort: O(n log n) promedio, O(n^2) peor caso")
-print("Radix Sort: O(d·n), d = número de dígitos")
-print("Python sorted (Timsort): O(n log n) en el peor caso")
