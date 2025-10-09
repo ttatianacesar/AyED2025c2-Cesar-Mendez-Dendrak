@@ -80,7 +80,7 @@ class Temperaturas_DB:
     def cargar_desde_archivo(self, nombre_archivo):
         """Lee un archivo de muestras y carga las temperaturas en la base de datos."""
         try:
-            with open(nombre_archivo, "r", encoding="utf-8") as archivo:
+            with open(nombre_archivo, "r", encoding="utf-16") as archivo: #sino no abre x tipo archivo
                 for linea in archivo:
                     linea = linea.strip()
                     if not linea:
