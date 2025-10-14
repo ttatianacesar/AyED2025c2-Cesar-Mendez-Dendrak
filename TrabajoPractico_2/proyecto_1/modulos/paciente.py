@@ -32,8 +32,8 @@ class Paciente:
     def get_descripcion_riesgo(self):
         return self.__descripcion
     
-    def get_tiempo_de_llegada(self):
-        return self.__tiempo_de_llegada
+    def get_tiempo_llegada(self):
+        return self.__tiempo_llegada
     
     def __lt__(self, otro):
         if self.__riesgo == otro.__riesgo:
