@@ -9,17 +9,16 @@ descripciones_de_riesgo = ['crítico', 'moderado', 'bajo']
 # probabilidades de aparición de cada tipo de paciente
 probabilidades = [0.1, 0.3, 0.6] 
 
-class Paciente:
-    contador= 0
+class Paciente:  
+    
     def __init__(self):
         n = len(nombres)  #8
         self.__nombre = nombres[randint(0, n-1)]  #entre 0 y 7
         self.__apellido = apellidos[randint(0, n-1)]
         self.__riesgo = choices(niveles_de_riesgo, probabilidades)[0] #toma solo el valor, un entero
         self.__descripcion = descripciones_de_riesgo[self.__riesgo-1] #acceder al indice de descripciones de riesgo con el valor del riesgo
-        self.__tiempo_de_llegada= time.time()
-        Paciente.contador += 1
-        self.__id = Paciente.contador # por si se repiten nombres 
+        self.__tiempo_llegada= time.time()
+        
 
     def get_nombre(self):
         return self.__nombre
@@ -39,7 +38,7 @@ class Paciente:
     def __lt__(self, otro):
         if self.__riesgo == otro.__riesgo:
             return self.__tiempo_llegada < otro.__tiempo_llegada
-        return self.__riesgo < otro.__riesgo
+        return self.__riesgo < otro.__riesgo   #bien
 
     def __str__(self):
         cad = self.__nombre + ' ' 
