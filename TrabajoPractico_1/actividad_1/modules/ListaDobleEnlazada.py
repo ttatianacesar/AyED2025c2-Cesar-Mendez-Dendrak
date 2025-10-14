@@ -149,16 +149,7 @@ class ListaDobleEnlazada:
             yield nodo_actual.dato
             nodo_actual = nodo_actual.siguiente
 
-    def agregar_al_final(self, dato):
-        nuevo_nodo = Nodo(dato)
-        if self.esta_vacia():
-            self.cabeza = self.cola = nuevo_nodo
-        else:
-            nuevo_nodo.anterior = self.cola
-            self.cola.siguiente = nuevo_nodo
-            self.cola = nuevo_nodo
-        self.tamanio += 1 
-    # si la lista esta vacia, asigna cabeza y cola al mismo nodo, sino conecta y actualiza la cola
+   
         
 
 
