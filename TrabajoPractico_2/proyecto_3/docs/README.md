@@ -14,7 +14,7 @@ Cada línea puede incluir dos aldeas conectadas por una arista ponderada (distan
 A partir de esta información, el módulo grafo.py construye un grafo no dirigido, almacenando sus nodos, aristas y pesos en estructuras adecuadas para su posterior procesamiento.
 
 
-__eleccion del algoritmo__
+__elecciÓn del algoritmo__
 
 
 El objetivo del trabajo es determinar la forma más eficiente de conectar todas las aldeas minimizando la suma total de distancias.
@@ -88,5 +88,6 @@ Una lista alfabética de todas las aldeas
 Para cada aldea, quien le transmite la noticia y a quien se la transmite.
 
 La distancia total minima en leguas que deben recorrer los mensajes.
+
 
 
