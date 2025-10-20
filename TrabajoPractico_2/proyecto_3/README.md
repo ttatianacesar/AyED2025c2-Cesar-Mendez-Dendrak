@@ -5,7 +5,7 @@ aldeas.txt
 Cada línea representa un camino entre dos aldeas, junto con la distancia (en leguas).
 Este archivo se utiliza como entrada para construir el grafo del problema mediante el módulo grafo.py.
 
-*modules*
+__modules__
 Contiene los módulos de implmentacion y lógica del proyecto.
  *grafo.py: implementa la clase "Graph", que modela el grafo no dirigido de aldeas y la estructura UnionFind, utilizada por el algoritmos de Kruskal.
  Permite leer el archivo aldeas.txt, almacenar nodos y aristas, y obtener las componentes conexas del grafo.
@@ -22,3 +22,4 @@ Lee el archivo aldeas.txt y construye el grafo.
 Aplica el algoritmo de Kruskal para obtener el MST.
 Orienta el árbol desde una raíz elegida (por defecto, "Peligros").
 Muestra por consola la distribución de noticias entre aldeas y el costo total del recorrido.
+
