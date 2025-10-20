@@ -2,6 +2,8 @@
 
 
 __data__
+
+
 aldeas.txt
  Contiene la descripción del mapa de aldeas y sus conexiones.
 Cada línea representa un camino entre dos aldeas, junto con la distancia (en leguas).
@@ -28,5 +30,6 @@ Lee el archivo aldeas.txt y construye el grafo.
 Aplica el algoritmo de Kruskal para obtener el MST.
 Orienta el árbol desde una raíz elegida (por defecto, "Peligros").
 Muestra por consola la distribución de noticias entre aldeas y el costo total del recorrido.
+
 
 
