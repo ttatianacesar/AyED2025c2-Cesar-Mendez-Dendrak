@@ -1,4 +1,7 @@
 Informe proyecto 3: Palomas mensajeras
+
+
+
 Integrantes: Tatiana Cesar, Jacqueline Dendrak y Sofia Méndez.
 *1. Enfoque de resolucion*
 
@@ -70,3 +73,4 @@ Una lista alfabética de todas las aldeas
 Para cada aldea, quien le transmite la noticia y a quien se la transmite.
 
 La distancia total minima en leguas que deben recorrer los mensajes.
+
