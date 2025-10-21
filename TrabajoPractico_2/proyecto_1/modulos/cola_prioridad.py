@@ -7,21 +7,23 @@ class Monticulo:
     def __init__(self):
         self.listaMonticulo = [0]
         self.tamanio = 0
-#si el nuevo es menor al padre, lo infiltra hacia arriba
-    def Infiltrar_Arriba(self,i):
-        while i // 2 > 0:
-          if self.listaMonticulo[i] < self.listaMonticulo[i // 2]:   #i//2 es el padre
-             tmp = self.listaMonticulo[i // 2]  #tmp es el padre
-             self.listaMonticulo[i // 2] = self.listaMonticulo[i]  #se mueve el hijo al lugar del padre
-             self.listaMonticulo[i] = tmp
-          i = i // 2  #padre
 
     def insertar(self, k):
         self.listaMonticulo.append(k) #agrego al final
         self.tamanio += 1 #se incrementa el tamaño= es nuevo
-        self.Infiltrar_Arriba(self.tamanio)                                  #tiene que pasar la comparacion e infiltrarse
-    
-    def infiltAbajo(self,i):
+        self.Infiltrar_Arriba(self.tamanio)
+
+#si el nuevo es menor al padre, lo infiltra hacia arriba
+    def Infiltrar_Arriba(self,i):
+        while i // 2 > 0:
+          if self.listaMonticulo[i] < self.listaMonticulo[i // 2]:   #i//2 es el padre
+             tmp = self.listaMonticulo[i // 2] 
+             self.listaMonticulo[i // 2] = self.listaMonticulo[i]  #se mueve el hijo al lugar del padre
+             self.listaMonticulo[i] = tmp
+          i = i // 2  #padre
+
+                                   
+    def Infiltrar_Abajo(self,i):
         while (i * 2) <= self.tamanio:
             hm = self.hijoMin(i)
             if self.listaMonticulo[i] > self.listaMonticulo[hm]:
@@ -46,7 +48,7 @@ class Monticulo:
         self.listaMonticulo[1] = self.listaMonticulo[self.tamanio]
         self.tamanio -=  1
         self.listaMonticulo.pop()
-        self.infiltAbajo(1)
+        self.Infiltrar_Abajo(1)
         return valorSacado
     
     def esta_vacio(self):
