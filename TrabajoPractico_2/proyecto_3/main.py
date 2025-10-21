@@ -1,57 +1,56 @@
-# main.py
-import sys
-from modules.io_utils import load_aldeas_from_file
-from modules.mst import kruskal_mst, build_tree_adj_from_mst, parent_child_from_tree
+"""
+main.py
+Usa los módulos grafo.py y mst.py para resolver la actividad 3.
+"""
 
-def main(path_ald: str, source: str = "Peligros"):
-    # cargar grafo
-    graph = load_aldeas_from_file(path_ald)
-    nodes = sorted(graph.nodes())
+import os
+from modules.grafo import Graph
+from modules.mst import kruskal_mst, orient_tree_from_root
 
-    # 1) Mostrar lista de aldeas en orden alfabético
-    print("Aldeas (alfabético):")
-    for n in nodes:
-        print(" -", n)
+def main(root="Peligros"):
+    # --- Armar ruta completa del archivo de datos ---
+    base_dir = os.path.dirname(__file__)               # carpeta donde está main.py
+    path = os.path.join(base_dir, "data", "aldeas.txt")  # data/aldeas.txt
+
+    # --- Leer archivo y construir grafo ---
+    g = Graph.from_file(path)
+
+    # --- Mostrar lista alfabética ---
+    aldeas_ordenadas = sorted(g.nodes)
+    print("Lista de aldeas (orden alfabético):")
+    for a in aldeas_ordenadas:
+        print(f"- {a}")
     print()
 
-    # 2) Calcular MST
-    mst_edges, total_weight = kruskal_mst(graph)
-    print("Aristas del MST (u, v, distancia):")
-    for e in mst_edges:
-        print(e)
-    print(f"Peso total del MST (suma de distancias): {total_weight}\n")
-
-    # 3) Construir árbol y padres/hijos desde source
-    tree_adj = build_tree_adj_from_mst(nodes, mst_edges)
-    if source not in tree_adj:
-        print(f"Atención: la aldea fuente '{source}' no está en el grafo.")
-        return
-
-    parents, children, edge_weight = parent_child_from_tree(tree_adj, source)
-
-    # 4) Mostrar para cada aldea de qué vecina recibe la noticia y a qué vecinas envía réplicas,
-    #    y la distancia que envía desde su palomar (suma de distancias a sus hijos)
-    print("Envíos por aldea (padre -> hijos) y sumas enviadas desde cada palomar:")
-    total_sent_per_palomar = {}
-    for a in nodes:
-        parent = parents.get(a)
-        childs = children.get(a, [])
-        s = sum(edge_weight[(a, c)] for c in childs)
-        total_sent_per_palomar[a] = s
-        print(f"Aldea: {a}")
-        print(f"  recibe de: {parent}")
-        print(f"  envía a: {childs}")
-        print(f"  distancia total enviada desde su palomar: {s}")
+    # --- Detectar si hay componentes ---
+    comps = g.components()
+    if len(comps) > 1:
+        print(f"⚠ El grafo tiene {len(comps)} componentes. Solo se orientará la de '{root}'.")
         print()
 
-    # 5) Suma total (control):
-    print("Suma total de distancias (verificación):", sum(total_sent_per_palomar.values()))
-    print("Nota: debe coincidir con peso total del MST.\n")
+    # --- Aplicar Kruskal ---
+    mst_edges, total_weight = kruskal_mst(g.nodes, g.edges)
+
+    # --- Orientar desde la raíz ---
+    if root not in g.nodes:
+        raise ValueError(f"La raíz '{root}' no existe.")
+    parent, children = orient_tree_from_root(mst_edges, root)
+
+    # --- Mostrar resultados ---
+    print("Distribución de noticias:")
+    for a in aldeas_ordenadas:
+        p = parent.get(a)
+        ch = children.get(a, [])
+        if p is None and a == root:
+            recv = "(origen - Peligros)"
+        elif p is None:
+            recv = "(no conectado a la raíz)"
+        else:
+            recv = p
+        print(f"- {a}: recibe de -> {recv}; envía a -> {ch}")
+    print()
+    print(f"Suma total de distancias recorridas (MST): {total_weight}")
+
 
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print("Uso: python main.py data/aldeas.txt [NombreFuente]")
-    else:
-        path = sys.argv[1]
-        src = sys.argv[2] if len(sys.argv) >= 3 else "Peligros"
-        main(path, src)
+    main("Peligros")

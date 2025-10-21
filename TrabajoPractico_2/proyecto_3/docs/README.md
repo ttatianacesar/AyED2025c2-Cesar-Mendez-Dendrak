@@ -1,168 +1,93 @@
-*Mostrar la lista de aldeas en orden alfabético.
-*Para cada aldea, mostrar de qué vecina debería recibir la noticia.
-*Para el envío de una noticia, mostrar la suma de todas las distancias recorridas por
-todas las palomas enviadas desde cada palomar.
+Informe proyecto 3: Palomas mensajeras
 
-⚠️  Línea 57 ignorada (formato inválido): 'Diosleguarde'
-Aldeas (alfabético):
- - Aceituna
- - Buenas Noches
- - Cebolla
- - Consuegra
- - Diosleguarde
- - El Cerrillo
- - Elciego
- - Espera
- - Hortijos
- - Humilladero
- - La Aparecida
- - La Pera
- - Lomaseca
- - Los Infiernos
- - Malcocinado
- - Melón
- - Pancrudo
- - Peligros
- - Pepino
- - Silla
- - Torralta
- - Villaviciosa
 
-Aristas del MST (u, v, distancia):
-('Consuegra', 'Malcocinado', 1)
-('Buenas Noches', 'Cebolla', 2)
-('Cebolla', 'Pancrudo', 2)
-('Lomaseca', 'Los Infiernos', 2)
-('Aceituna', 'Malcocinado', 2)
-('Elciego', 'Melón', 3)
-('Espera', 'La Pera', 3)
-('Buenas Noches', 'La Aparecida', 3)
-('La Pera', 'Los Infiernos', 3)
-('Lomaseca', 'Pepino', 3)
-('Silla', 'Torralta', 4)
-('La Aparecida', 'Peligros', 5)
-('La Aparecida', 'Silla', 5)
-('El Cerrillo', 'Lomaseca', 5)
-('Hortijos', 'Humilladero', 5)
-('El Cerrillo', 'Malcocinado', 6)
-('Diosleguarde', 'Elciego', 7)
-('Lomaseca', 'Peligros', 7)
-('Torralta', 'Villaviciosa', 8)
-('Humilladero', 'Torralta', 9)
-('Diosleguarde', 'Malcocinado', 9)
-Peso total del MST (suma de distancias): 94
 
-Envíos por aldea (padre -> hijos) y sumas enviadas desde cada palomar:
-Aldea: Aceituna
-  recibe de: Malcocinado
-  envía a: []
-  distancia total enviada desde su palomar: 0
+Integrantes: Tatiana Cesar, Jacqueline Dendrak y Sofia Méndez.
 
-Aldea: Buenas Noches
-  recibe de: La Aparecida
-  envía a: ['Cebolla']
-  distancia total enviada desde su palomar: 2
 
-Aldea: Cebolla
-  recibe de: Buenas Noches
-  envía a: ['Pancrudo']
-  distancia total enviada desde su palomar: 2
+*Enfoque de resolucion*
 
-Aldea: Consuegra
-  recibe de: Malcocinado
-  envía a: []
-  distancia total enviada desde su palomar: 0
+   __lectura y modelado del grafo__
 
-Aldea: Diosleguarde
-  recibe de: Malcocinado
-  envía a: ['Elciego']
-  distancia total enviada desde su palomar: 7
+   El proyecto parte de la lectura del archivo aldeas.txt, que contiene la descripción del mapa de aldeas y las distancias que las separan.
+Cada línea puede incluir dos aldeas conectadas por una arista ponderada (distancia en leguas) o una aldea aislada.
+A partir de esta información, el módulo grafo.py construye un grafo no dirigido, almacenando sus nodos, aristas y pesos en estructuras adecuadas para su posterior procesamiento.
 
-Aldea: El Cerrillo
-  recibe de: Lomaseca
-  envía a: ['Malcocinado']
-  distancia total enviada desde su palomar: 6
 
-Aldea: Elciego
-  recibe de: Diosleguarde
-  envía a: ['Melón']
-  distancia total enviada desde su palomar: 3
+__elecciÓn del algoritmo__
 
-Aldea: Espera
-  recibe de: La Pera
-  envía a: []
-  distancia total enviada desde su palomar: 0
 
-Aldea: Hortijos
-  recibe de: Humilladero
-  envía a: []
-  distancia total enviada desde su palomar: 0
+El objetivo del trabajo es determinar la forma más eficiente de conectar todas las aldeas minimizando la suma total de distancias.
+Para lograrlo, se utiliza el algoritmo de Kruskal, el cual genera un Árbol de Expansión Mínima (MST).
+Este enfoque permite conectar todas las aldeas con el menor costo global posible, independientemente del punto de partida, garantizando que no se formen ciclos y que todas las conexiones sean necesarias.
 
-Aldea: Humilladero
-  recibe de: Torralta
-  envía a: ['Hortijos']
-  distancia total enviada desde su palomar: 5
+__implementación del algoritmo__
 
-Aldea: La Aparecida
-  recibe de: Peligros
-  envía a: ['Buenas Noches', 'Silla']
-  distancia total enviada desde su palomar: 8
 
-Aldea: La Pera
-  recibe de: Los Infiernos
-  envía a: ['Espera']
-  distancia total enviada desde su palomar: 3
+El algoritmo de Kruskal se implementa en el módulo mst.py.
+Primero se ordenan todas las aristas por peso y luego se van incorporando al árbol solo aquellas que no generen ciclos, utilizando la estructura Union-Find para gestionar las componentes conectadas.
+Además, el mismo módulo incluye una función auxiliar para orientar el árbol desde una raíz (por defecto, la aldea “Peligros”), simulando el flujo de información a través de la red de aldeas.
 
-Aldea: Lomaseca
-  recibe de: Peligros
-  envía a: ['Los Infiernos', 'Pepino', 'El Cerrillo']
-  distancia total enviada desde su palomar: 10
 
-Aldea: Los Infiernos
-  recibe de: Lomaseca
-  envía a: ['La Pera']
-  distancia total enviada desde su palomar: 3
+__construcción del árbol orientado__
 
-Aldea: Malcocinado
-  recibe de: El Cerrillo
-  envía a: ['Consuegra', 'Aceituna', 'Diosleguarde']
-  distancia total enviada desde su palomar: 12
 
-Aldea: Melón
-  recibe de: Elciego
-  envía a: []
-  distancia total enviada desde su palomar: 0
+Una vez obtenido el árbol mínimo, se define una dirección de transmisión:
+cada aldea recibe la noticia desde una aldea vecina (su “padre”) y la transmite a otras (sus “hijos”).
+De esta forma se puede determinar el recorrido de la información y el costo total de las distancias recorridas dentro de la red.
 
-Aldea: Pancrudo
-  recibe de: Cebolla
-  envía a: []
-  distancia total enviada desde su palomar: 0
 
-Aldea: Peligros
-  recibe de: None
-  envía a: ['La Aparecida', 'Lomaseca']
-  distancia total enviada desde su palomar: 12
+*Estructura del proyecto*
 
-Aldea: Pepino
-  recibe de: Lomaseca
-  envía a: []
-  distancia total enviada desde su palomar: 0
+proyecto_3/
+│
+├── data/
+│   └── aldeas.txt
+│
+├── docs/
+│   └── README.md
+│
+├── modules/
+│   ├── __init__.py
+│   ├── grafo.py
+│   └── mst.py
+│
+└── main.py
 
-Aldea: Silla
-  recibe de: La Aparecida
-  envía a: ['Torralta']
-  distancia total enviada desde su palomar: 4
+grafo.py:
 
-Aldea: Torralta
-  recibe de: Silla
-  envía a: ['Villaviciosa', 'Humilladero']
-  distancia total enviada desde su palomar: 17
+Define la clase Graph, responsable de la lectura del archivo de datos y del modelado del grafo.
+También contiene la estructura UnionFind, utilizada para el algoritmo de Kruskal.
 
-Aldea: Villaviciosa
-  recibe de: Torralta
-  envía a: []
-  distancia total enviada desde su palomar: 0
+mst.py:
 
-Suma total de distancias (verificación): 94
-Nota: debe coincidir con peso total del MST.
+Contiene la implementación del algoritmo de Kruskal y la función orient_tree_from_root() que permite orientar el árbol mínimo desde una aldea raíz.
+
+main.py:
+
+Ejecuta el flujo general del programa: lectura del archivo, construcción del grafo, obtención del MST y orientación desde “Peligros”.
+Finalmente, imprime los resultados en consola.
+
+aldeas.txt:
+
+Archivo de entrada con la descripción de las aldeas y sus distancias (en leguas).
+
+docs/README.md:
+
+Documento explicativo del proyecto y sus fundamentos teóricos.
+
+
+*Resultados del programa*
+
+
+Al ejecutar main.py, el programa muestra en la consola:
+
+
+Una lista alfabética de todas las aldeas
+
+Para cada aldea, quien le transmite la noticia y a quien se la transmite.
+
+La distancia total minima en leguas que deben recorrer los mensajes.
+
+
 
