@@ -1,52 +1,49 @@
-Lista de aldeas (orden alfabético):
-- Aceituna
-- Buenas Noches
-- Cebolla
-- Consuegra
-- Diosleguarde
-- El Cerrillo
-- Elciego
-- Espera
-- Hortijos
-- Humilladero
-- La Aparecida
-- La Pera
-- Lomaseca
-- Los Infiernos
-- Malcocinado
-- Melón
-- Pancrudo
-- Peligros
-- Pepino
-- Silla
-- Torralta
-- Villaviciosa
+*Estructura del proyecto*
 
-Distribución de noticias:
-- Aceituna: recibe de -> Malcocinado; envía a -> []
-- Buenas Noches: recibe de -> La Aparecida; envía a -> ['Cebolla']
-- Cebolla: recibe de -> Buenas Noches; envía a -> ['Pancrudo']
-- Consuegra: recibe de -> Malcocinado; envía a -> []
-- Diosleguarde: recibe de -> Malcocinado; envía a -> ['Elciego']
-- El Cerrillo: recibe de -> Los Infiernos; envía a -> ['Malcocinado']
-- Elciego: recibe de -> Diosleguarde; envía a -> ['Melón']
-- Espera: recibe de -> La Pera; envía a -> []
-- Hortijos: recibe de -> Humilladero; envía a -> []
-- Humilladero: recibe de -> Torralta; envía a -> ['Hortijos']
-- La Aparecida: recibe de -> Peligros; envía a -> ['Buenas Noches', 'Silla']
-- La Pera: recibe de -> Los Infiernos; envía a -> ['Espera']
-- Lomaseca: recibe de -> Peligros; envía a -> ['Los Infiernos', 'Pepino']
-- Los Infiernos: recibe de -> Lomaseca; envía a -> ['La Pera', 'El Cerrillo']
-- Malcocinado: recibe de -> El Cerrillo; envía a -> ['Consuegra', 'Aceituna', 'Diosleguarde']
-- Melón: recibe de -> Elciego; envía a -> []
-- Pancrudo: recibe de -> Cebolla; envía a -> []
-- Peligros: recibe de -> (origen - Peligros); envía a -> ['La Aparecida', 'Lomaseca']
-- Pepino: recibe de -> Lomaseca; envía a -> []
-- Silla: recibe de -> La Aparecida; envía a -> ['Torralta']
-- Torralta: recibe de -> Silla; envía a -> ['Villaviciosa', 'Humilladero']
-- Villaviciosa: recibe de -> Torralta; envía a -> []
 
-Suma total de distancias recorridas (MST): 94
+__data__
+
+
+aldeas.txt
+
+
+ Contiene la descripción del mapa de aldeas y sus conexiones.
+Cada línea representa un camino entre dos aldeas, junto con la distancia (en leguas).
+Este archivo se utiliza como entrada para construir el grafo del problema mediante el módulo grafo.py.
+
+__modules__
+
+Contiene los módulos de implmentacion y lógica del proyecto.
+
+ grafo.py:
+ 
+ implementa la clase "Graph", que modela el grafo no dirigido de aldeas y la estructura UnionFind, utilizada por el algoritmos de Kruskal.
+ Permite leer el archivo aldeas.txt, almacenar nodos y aristas, y obtener las componentes conexas del grafo.
+ 
+ mst.py:
+ 
+ contiene el algoritmo de Kruskal para obtener el árbol de recubrimiento minimo (MST) y una funcion auxiliar orient_tree_from_root() para orientar el árbol desde una aldea raíz dada.
+ 
+ init.py:
+ 
+ indica que la carpeta modules es un paquete python, permitiendo importar sus modulos desde main.py
+
+ __docs__
+ 
+ README.md: 
+ 
+ explica el propósito del proyecto, como esta organizado y las instrucciones basicas para ejecutarlo.
+
+ __main.py__
+
+ 
+ Archivo principal del proyecto.
+Ejecuta el programa general combinando las funcionalidades de los módulos:
+Lee el archivo aldeas.txt y construye el grafo.
+Aplica el algoritmo de Kruskal para obtener el MST.
+Orienta el árbol desde una raíz elegida (por defecto, "Peligros").
+Muestra por consola la distribución de noticias entre aldeas y el costo total del recorrido.
+
 
 
 
