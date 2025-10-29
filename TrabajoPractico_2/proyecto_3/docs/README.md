@@ -74,7 +74,7 @@ Archivo de entrada con la descripción de las aldeas y sus distancias (en leguas
 
 docs/README.md:
 
-Documento explicativo del proyecto y sus fundamentos teóricos.
+Se muestra lo solicitado en el apartado entregables del propio ejercicio.
 
 
 *Resultados del programa*
@@ -88,6 +88,7 @@ Una lista alfabética de todas las aldeas
 Para cada aldea, quien le transmite la noticia y a quien se la transmite.
 
 La distancia total minima en leguas que deben recorrer los mensajes.
+
 
 
 
