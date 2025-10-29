@@ -1,14 +1,3 @@
- __main.py__
-
- 
- Archivo principal del proyecto.
-Ejecuta el programa general combinando las funcionalidades de los módulos:
-Lee el archivo aldeas.txt y construye el grafo.
-Aplica el algoritmo de Kruskal para obtener el MST.
-Orienta el árbol desde una raíz elegida (por defecto, "Peligros").
-Muestra por consola la distribución de noticias entre aldeas y el costo total del recorrido.
-
-
 Lista de aldeas (orden alfabético):
 - Aceituna
 - Buenas Noches
@@ -58,6 +47,7 @@ Distribución de noticias:
 - Villaviciosa: recibe de -> Torralta; envía a -> []
 
 Suma total de distancias recorridas (MST): 94
+
 
 
 
