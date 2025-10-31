@@ -101,7 +101,7 @@ class ArbolAVL: #define estructura del arbol, maneja nodos, inserciones y rotaci
         else: #si no hay raiz, crea el 1er nodo como raiz
             self.raiz = NodoArbol(clave,valor)
         self.tamano = self.tamano + 1 #incrementa el tamaño xq agrego algo
-
+#este era el del arbolABB:
     """def _agregar(self,clave,valor,nodoActual):
         if clave < nodoActual.clave:
             if nodoActual.tieneHijoIzquierdo():
@@ -237,29 +237,13 @@ class ArbolAVL: #define estructura del arbol, maneja nodos, inserciones y rotaci
        else:
            return False
 
-    """def eliminar(self,clave):
-      if self.tamano > 1:
-         nodoAEliminar = self._obtener(clave,self.raiz)
-         if nodoAEliminar:
-             self.remover(nodoAEliminar)
-             self.tamano = self.tamano-1
-         else:
-             raise KeyError('Error, la clave no está en el árbol')
-      elif self.tamano == 1 and self.raiz.clave == clave:
-         self.raiz = None
-         self.tamano = self.tamano - 1
-      else:
-         raise KeyError('Error, la clave no está en el árbol')
-
-    def __delitem__(self,clave):
-       self.eliminar(clave) """
     #CAMBIO ELIMINAR, ahora llama a remover
-    def eliminar(self, clave, usar_predecesor=False):
+    def eliminar(self, clave):
         """Busca el nodo con la clave y lo elimina usando remover"""
         if self.tamano > 1:
             nodo_a_eliminar = self._obtener(clave, self.raiz)
             if nodo_a_eliminar:
-                self.remover(nodo_a_eliminar, usar_predecesor)
+                self.remover(nodo_a_eliminar)
                 self.tamano -= 1
             else:
                 raise KeyError('Error, la clave no está en el árbol')
@@ -268,98 +252,21 @@ class ArbolAVL: #define estructura del arbol, maneja nodos, inserciones y rotaci
             self.tamano -= 1
         else:
             raise KeyError('Error, la clave no está en el árbol')
+        self.reequilibrar(self.raiz)
 
 
-
-    """def empalmar(self):
-       if self.esHoja():
-           if self.esHijoIzquierdo():
-                  self.padre.hijoIzquierdo = None
-           else:
-                  self.padre.hijoDerecho = None
-       elif self.tieneAlgunHijo():
-           if self.tieneHijoIzquierdo():
-                  if self.esHijoIzquierdo():
-                     self.padre.hijoIzquierdo = self.hijoIzquierdo
-                  else:
-                     self.padre.hijoDerecho = self.hijoIzquierdo
-                  self.hijoIzquierdo.padre = self.padre
-           else:
-                  if self.esHijoIzquierdo():
-                     self.padre.hijoIzquierdo = self.hijoDerecho
-                  else:
-                     self.padre.hijoDerecho = self.hijoDerecho
-                  self.hijoDerecho.padre = self.padre
-
-    def encontrarSucesor(self):
-      suc = None
-      if self.tieneHijoDerecho():
-          suc = self.hijoDerecho.encontrarMin()
-      else:
-          if self.padre:
-                 if self.esHijoIzquierdo():
-                     suc = self.padre
-                 else:
-                     self.padre.hijoDerecho = None
-                     suc = self.padre.encontrarSucesor()
-                     self.padre.hijoDerecho = self
-      return suc
-
-    def encontrarMin(self):
-      actual = self
-      while actual.tieneHijoIzquierdo():
-          actual = actual.hijoIzquierdo
-      return actual """
-
-    """def remover(self,nodoActual):
-         if nodoActual.esHoja(): #hoja
-           if nodoActual == nodoActual.padre.hijoIzquierdo:
-               nodoActual.padre.hijoIzquierdo = None
-           else:
-               nodoActual.padre.hijoDerecho = None
-         elif nodoActual.tieneAmbosHijos(): #interior
-           suc = nodoActual.encontrarSucesor()
-           suc.empalmar()
-           nodoActual.clave = suc.clave
-           nodoActual.cargaUtil = suc.cargaUtil
-
-         else: # este nodo tiene un (1) hijo
-           if nodoActual.tieneHijoIzquierdo():
-             if nodoActual.esHijoIzquierdo():
-                 nodoActual.hijoIzquierdo.padre = nodoActual.padre
-                 nodoActual.padre.hijoIzquierdo = nodoActual.hijoIzquierdo
-             elif nodoActual.esHijoDerecho():
-                 nodoActual.hijoIzquierdo.padre = nodoActual.padre
-                 nodoActual.padre.hijoDerecho = nodoActual.hijoIzquierdo
-             else:
-                 nodoActual.reemplazarDatoDeNodo(nodoActual.hijoIzquierdo.clave,
-                                    nodoActual.hijoIzquierdo.cargaUtil,
-                                    nodoActual.hijoIzquierdo.hijoIzquierdo,
-                                    nodoActual.hijoIzquierdo.hijoDerecho)
-           else:
-             if nodoActual.esHijoIzquierdo():
-                 nodoActual.hijoDerecho.padre = nodoActual.padre
-                 nodoActual.padre.hijoIzquierdo = nodoActual.hijoDerecho
-             elif nodoActual.esHijoDerecho():
-                 nodoActual.hijoDerecho.padre = nodoActual.padre
-                 nodoActual.padre.hijoDerecho = nodoActual.hijoDerecho
-             else:
-                 nodoActual.reemplazarDatoDeNodo(nodoActual.hijoDerecho.clave,
-                                    nodoActual.hijoDerecho.cargaUtil,
-                                    nodoActual.hijoDerecho.hijoIzquierdo,
-                                    nodoActual.hijoDerecho.hijoDerecho) """
+    
 #CAMBIO MI REMOVER: asi llama a actualizar equilibrio despues de eliminar
     def remover(self, nodo_actual, usar_predecesor=False):
         """Elimina un nodo una vez encontrado"""
-        
-        # 1️⃣ Nodo hoja
+        # Nodo hoja
         if nodo_actual.esHoja():
             if nodo_actual.esHijoIzquierdo():
                 nodo_actual.padre.hijoIzquierdo = None
             else:
                 nodo_actual.padre.hijoDerecho = None
 
-        # 2️⃣ Nodo con ambos hijos
+        # Nodo con ambos hijos
         elif nodo_actual.tieneAmbosHijos():
             # Elegir sucesor o predecesor
             if usar_predecesor:
@@ -371,7 +278,7 @@ class ArbolAVL: #define estructura del arbol, maneja nodos, inserciones y rotaci
             nodo_actual.clave = reemplazo.clave
             nodo_actual.cargaUtil = reemplazo.cargaUtil
 
-        # 3️⃣ Nodo con un solo hijo
+        # Nodo con un solo hijo
         else:
             hijo = nodo_actual.hijoIzquierdo if nodo_actual.tieneHijoIzquierdo() else nodo_actual.hijoDerecho
             
@@ -414,22 +321,11 @@ class ArbolAVL: #define estructura del arbol, maneja nodos, inserciones y rotaci
         return izq and der
 
 
-
-
-"""miArbol = ArbolBinarioBusqueda()
-miArbol[3]="rojo"
-miArbol[4]="azul"
-miArbol[6]="amarillo"
-miArbol[2]="en"
-
-print(miArbol[6])
-print(miArbol[2]) """
-
 # para probar rápido el arbol
 if __name__ == "__main__":
     miArbol = ArbolAVL()
 
-    """#prueba de agregar
+    #prueba de agregar
     miArbol.agregar(3, "tres") #clave y valor de cada nodo
     miArbol.agregar(4, "cuatro")
     miArbol.agregar(6, "seis")
@@ -453,22 +349,22 @@ if __name__ == "__main__":
     print("¿Está balanceado después del empalme?:", miArbol.esta_balanceado())
     print("Buscar 3:", miArbol.obtener(3)) #debe decir q no
     print("Buscar 7 :", miArbol.obtener(7)) #se q sigue estando
+ #-------------------------------------------------
+ #prueba accesoria para chequear balance: 
+    # print(miArbol.raiz.clave) 
+    # miArbol.agregar(1,1)
+    # miArbol.agregar(2,2)
+    # miArbol.agregar(3,3)
+    # miArbol.agregar(4,4)
+    # miArbol.agregar(5,5)
+    # miArbol.agregar(6,6)
+    # miArbol.agregar(7,7)
+    # miArbol.agregar(8,8)
+    # miArbol.agregar(9,9)
+    # predecesor=True
+    # miArbol.eliminar(6) 
 
-    print(miArbol.raiz.clave) """
-    miArbol.agregar(1,1)
-    miArbol.agregar(2,2)
-    miArbol.agregar(3,3)
-    miArbol.agregar(4,4)
-    miArbol.agregar(5,5)
-    miArbol.agregar(6,6)
-    miArbol.agregar(7,7)
-    miArbol.agregar(8,8)
-    miArbol.agregar(9,9)
-    predecesor=True
-    miArbol.eliminar(6,predecesor) 
-
-    
-    print(miArbol.raiz.clave)
-    print(miArbol.raiz.hijoIzquierdo.clave)
-    print(miArbol.raiz.hijoDerecho.clave)
+    # print(miArbol.raiz.clave)
+    # print(miArbol.raiz.hijoIzquierdo.clave)
+    # print(miArbol.raiz.hijoDerecho.clave)
 
