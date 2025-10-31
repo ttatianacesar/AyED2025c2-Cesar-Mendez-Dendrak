@@ -6,7 +6,6 @@ apellidos = ['Perez', 'Colman', 'Rodriguez', 'Juarez', 'García', 'Belgrano', 'M
 
 niveles_de_riesgo = [1, 2, 3]
 descripciones_de_riesgo = ['crítico', 'moderado', 'bajo']
-# probabilidades de aparición de cada tipo de paciente
 probabilidades = [0.1, 0.3, 0.6] 
 
 class Paciente:  
@@ -35,18 +34,19 @@ class Paciente:
     def get_tiempo_llegada(self):
         return self.__tiempo_llegada
     
-    def __lt__(self, otro):
-        if self.__riesgo == otro.__riesgo:
-            return self.__tiempo_llegada < otro.__tiempo_llegada
-        return self.__riesgo < otro.__riesgo   #bien
-
     def __str__(self):
         cad = self.__nombre + ' ' 
         cad += self.__apellido  + '\t -> '
         cad += str(self.__riesgo) + '-' + self.__descripcion
         return cad
 
-#nnombre= Paciente()   
-#print(nnombre)
-        
-        
+    
+    def __lt__(self, otro):
+        if self.__riesgo == otro.__riesgo:
+            return self.__tiempo_llegada < otro.__tiempo_llegada
+        return self.__riesgo < otro.__riesgo   #bien
+
+    def __eq__(self, otro):
+        return self.__riesgo == otro.__riesgo and self.__tiempo_llegada == otro.__tiempo_llegada
+       
+

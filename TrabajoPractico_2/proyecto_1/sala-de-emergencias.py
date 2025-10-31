@@ -19,11 +19,11 @@ for i in range(n):
     paciente = pac.Paciente()
 
     # Insertar en la cola de prioridad (riesgo es la prioridad)
-    cola_de_espera.insertar(paciente)
+    cola_de_espera.encolar(paciente)
 
     # 50% de probabilidad de atender a alguien
     if random.random() < 0.5 and not cola_de_espera.esta_vacia():
-        paciente_atendido = cola_de_espera.eliminar()
+        paciente_atendido = cola_de_espera.desencolar()
         print('*' * 40)
         print('Se atiende el paciente:', paciente_atendido)
         print('*' * 40)
@@ -31,7 +31,7 @@ for i in range(n):
     print()
     print('Pacientes que faltan atenderse:', len(cola_de_espera))
     for i in range(1, cola_de_espera.monticulo.tamanio+1):
-        print('/t', cola_de_espera.monticulo.listaMonticulo[i])
+        print('\t', cola_de_espera.monticulo.listaMonticulo[i])
         
 
     print()
