@@ -148,42 +148,47 @@ class ArbolAVL: #define estructura del arbol, maneja nodos, inserciones y rotaci
 #  del padre. Si el factor de equilibrio del padre no es cero, entonces el algoritmo continúa ascendiendo en el árbol, hacia la raíz,
 #  llamando recursivamente a actualizarEquilibrio con el padre como parámetro.
 
-#ROTACIONES: agregado 
+#ROTACIONES: agregado: cambian estructura del arbol para reducir la altura de un subarbol
 
+#cuando el subarbol derecho es + alto
     def rotarIzquierda(self,rotRaiz):
-        nuevaRaiz = rotRaiz.hijoDerecho
-        rotRaiz.hijoDerecho = nuevaRaiz.hijoIzquierdo
-        if nuevaRaiz.hijoIzquierdo != None:
-            nuevaRaiz.hijoIzquierdo.padre = rotRaiz
-        nuevaRaiz.padre = rotRaiz.padre
-        if rotRaiz.esRaiz():
+        nuevaRaiz = rotRaiz.hijoDerecho #agarra el h. derecho la raiz desequilibrada y hace q ahora sea la nueva raiz
+        rotRaiz.hijoDerecho = nuevaRaiz.hijoIzquierdo # si el q ahora es raiz tenia subhijo izq, ahora sera hijo derecho de la vieja raiz
+        if nuevaRaiz.hijoIzquierdo != None: #busca h.i. de la raiz nueva, if existe, si es distinto de none significa que hay un nodo conectado ahi
+            nuevaRaiz.hijoIzquierdo.padre = rotRaiz #como existe, al nodo que esta como hijo izq de nueva raiz, cambiale el atributo de padre p q apunte a rotRaiz. #hay q actualizar referencias
+        #el hij izq ahora tiene como padre a nueva raiz, actualiza el campo padre del nodo q cambio de lugar
+        #solo le da nombre a lo que se explico antes. el h.i de nueva raiz ahora es hijo derecho de la raiz vieja
+        nuevaRaiz.padre = rotRaiz.padre #ahora la nueva raiz es el padre, sube, el padre q antes era rotRaiz
+        if rotRaiz.esRaiz(): #si la raiz vieja era la raiz principal de todo el arbol, entonces ahora la raiz nueva sera principal, o sea le cambia el puesto.
             self.raiz = nuevaRaiz
         else:
-            if rotRaiz.esHijoIzquierdo():
-                    rotRaiz.padre.hijoIzquierdo = nuevaRaiz
+            if rotRaiz.esHijoIzquierdo(): #si la raiz vieja no era principal
+                    rotRaiz.padre.hijoIzquierdo = nuevaRaiz #ahora el padre es la raiz nueva .
+                    #hij izq si hay q sust el enlace izq
             else:
-                rotRaiz.padre.hijoDerecho = nuevaRaiz
-        nuevaRaiz.hijoIzquierdo = rotRaiz
-        rotRaiz.padre = nuevaRaiz
-        rotRaiz.factorEquilibrio = rotRaiz.factorEquilibrio + 1 - min(nuevaRaiz.factorEquilibrio, 0)
-        nuevaRaiz.factorEquilibrio = nuevaRaiz.factorEquilibrio + 1 + max(rotRaiz.factorEquilibrio, 0)
+                rotRaiz.padre.hijoDerecho = nuevaRaiz #si hay q sust el enlace derecho
+        nuevaRaiz.hijoIzquierdo = rotRaiz #ahora la raiz vieja es hijo izq de la raiz nueva
+        rotRaiz.padre = nuevaRaiz #actualizo quien es el padre ahora, la raiz nueva, lo q antes era raiz vieja
+        #cada nodo del arbol tiene un fact eq. al rotar cambian esos fe, asi q hay q recalcularlos p mostrar la nueva forma del arbol
+        rotRaiz.factorEquilibrio = rotRaiz.factorEquilibrio + 1 - min(nuevaRaiz.factorEquilibrio, 0) #actualiza balance del nodo q bajo, haciendo el calculo con el que acaba de subir en reemplazo de este
+        nuevaRaiz.factorEquilibrio = nuevaRaiz.factorEquilibrio + 1 + max(rotRaiz.factorEquilibrio, 0) #actualiza el balance del q subio, teniendo en cuenta el q ahora tiene abajo
 
-#rotar derecha--> simetrica a rotar izq: 
+#rotar derecha--> simetrica a rotar izq: #si esta pesado el lado izq, rota a la derecha
     def rotarDerecha(self, rotRaiz):
-        nuevaRaiz = rotRaiz.hijoIzquierdo
-        rotRaiz.hijoIzquierdo = nuevaRaiz.hijoDerecho
-        if nuevaRaiz.hijoDerecho != None:
-            nuevaRaiz.hijoDerecho.padre = rotRaiz
-        nuevaRaiz.padre = rotRaiz.padre
-        if rotRaiz.esRaiz():
-            self.raiz = nuevaRaiz
-        else:
-            if rotRaiz.esHijoDerecho():
-                rotRaiz.padre.hijoDerecho = nuevaRaiz
+        nuevaRaiz = rotRaiz.hijoIzquierdo #el hijo izq de la raiz vieja ahora es raiz nueva
+        rotRaiz.hijoIzquierdo = nuevaRaiz.hijoDerecho #el q era hijo derecho de la raiz nueva ahora es h izq de la vieja
+        if nuevaRaiz.hijoDerecho != None: #si exsiste el hd de la raiz nueva
+            nuevaRaiz.hijoDerecho.padre = rotRaiz #el hijo derecho ahora tiene como padre a la raiz nueva
+        nuevaRaiz.padre = rotRaiz.padre #actualizo nombre del padre
+        if rotRaiz.esRaiz(): #si la vieja era principal
+            self.raiz = nuevaRaiz #ahora la q ocupó su lugar sera principal
+        else: #si no era principal
+            if rotRaiz.esHijoDerecho(): #compruebo q haya sido h.d. de su padre
+                rotRaiz.padre.hijoDerecho = nuevaRaiz #ahora la nueva raiz va a ser padre de su h.d
             else:
-                rotRaiz.padre.hijoIzquierdo = nuevaRaiz
-        nuevaRaiz.hijoDerecho = rotRaiz
-        rotRaiz.padre = nuevaRaiz
+                rotRaiz.padre.hijoIzquierdo = nuevaRaiz #o de su h.izq
+        nuevaRaiz.hijoDerecho = rotRaiz #ahora la vieja es hijo derecho de la nueva
+        rotRaiz.padre = nuevaRaiz #y la nueva es padre de la vieja
 
         # actualización de factores de equilibrio (simétrica a rotarIzquierda)
         rotRaiz.factorEquilibrio = rotRaiz.factorEquilibrio - 1 - max(nuevaRaiz.factorEquilibrio, 0)
@@ -191,7 +196,7 @@ class ArbolAVL: #define estructura del arbol, maneja nodos, inserciones y rotaci
 
 
 #REEQUILIBRIO:
-    def reequilibrar(self,nodo):
+    def reequilibrar(self,nodo): 
         if nodo.factorEquilibrio < 0:
             if nodo.hijoDerecho.factorEquilibrio > 0:
                 self.rotarDerecha(nodo.hijoDerecho)
@@ -268,11 +273,8 @@ class ArbolAVL: #define estructura del arbol, maneja nodos, inserciones y rotaci
 
         # Nodo con ambos hijos
         elif nodo_actual.tieneAmbosHijos():
-            # Elegir sucesor o predecesor
-            if usar_predecesor:
-                reemplazo = nodo_actual.encontrarPredecesor()
-            else:
-                reemplazo = nodo_actual.encontrarSucesor()
+            # Elegir sucesor  # no usar predecesor
+            reemplazo = nodo_actual.encontrarSucesor()
 
             reemplazo.empalmar()  # desconecta el nodo reemplazo de su lugar original
             nodo_actual.clave = reemplazo.clave
